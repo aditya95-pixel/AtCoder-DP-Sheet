@@ -266,3 +266,49 @@ int32_t main(){
     cout<<res<<endl;
 }
 ```
+
+### F LCS
+
+Problem Statement
+You are given strings 
+s and 
+t. Find one longest string that is a subsequence of both 
+s and 
+t.
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+#define int long long
+#define MOD 1000000007
+const int INF=1e15;
+int32_t main(){
+    string s,t;
+    cin>>s>>t;
+    vector<vector<int>>dp(s.size()+1,vector<int>(t.size()+1,0));
+    for(int i=1;i<=s.size();i++){
+        for(int j=1;j<=t.size();j++){
+            if(s[i-1]==t[j-1])
+            dp[i][j]=dp[i-1][j-1]+1;
+            else
+            dp[i][j]=max({dp[i-1][j],dp[i][j-1]});
+        }
+    }
+    string res;
+    int i=s.size(),j=t.size();
+    while(i>0 && j>0){
+        if(s[i-1]==t[j-1])
+        {
+            res+=s[i-1];
+            i--;
+            j--;
+        }
+        else if(dp[i-1][j]>dp[i][j-1])
+            i--;
+        else
+            j--;
+    }
+    reverse(res.begin(),res.end());
+    cout<<res<<endl;
+}
+```
