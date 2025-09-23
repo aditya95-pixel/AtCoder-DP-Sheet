@@ -24,10 +24,7 @@ i+2. Here, a cost of
 i
 ​
  −h 
- 
-j
-
- ∣ is incurred, where 
+ j∣ is incurred, where 
 j is the stone to land on.
 Find the minimum possible total cost incurred before the frog reaches Stone 
 N.
