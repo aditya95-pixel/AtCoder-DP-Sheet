@@ -106,3 +106,58 @@ int32_t main(){
     cout<<dp[n-1]<<endl;
 }
 ```
+
+### C Vacation
+
+Problem Statement
+Taro's summer vacation starts tomorrow, and he has decided to make plans for it now.
+
+The vacation consists of 
+N days. For each 
+i (
+1≤i≤N), Taro will choose one of the following activities and do it on the 
+i-th day:
+
+A: Swim in the sea. Gain 
+a 
+i
+​
+  points of happiness.
+B: Catch bugs in the mountains. Gain 
+b 
+i
+​
+  points of happiness.
+C: Do homework at home. Gain 
+c 
+i
+​
+  points of happiness.
+As Taro gets bored easily, he cannot do the same activities for two or more consecutive days.
+
+Find the maximum possible total points of happiness that Taro gains.
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+#define int long long
+#define MOD 1000000007
+int32_t main(){
+    int n;
+    cin>>n;
+    vector<int>a(n),b(n),c(n);
+    for(int i=0;i<n;i++){
+        cin>>a[i]>>b[i]>>c[i];
+    }
+    vector<vector<int>>dp(n+1,vector<int>(3,0));
+    dp[0][0]=0;
+    dp[0][1]=0;
+    dp[0][2]=0;
+    for(int i=1;i<=n;i++){
+        dp[i][0]=max(dp[i-1][1]+a[i-1],dp[i-1][2]+a[i-1]);
+        dp[i][1]=max(dp[i-1][0]+b[i-1],dp[i-1][2]+b[i-1]);
+        dp[i][2]=max(dp[i-1][0]+c[i-1],dp[i-1][1]+c[i-1]);
+    }
+    cout<<max({dp[n][0],dp[n][1],dp[n][2]});
+}
+```
