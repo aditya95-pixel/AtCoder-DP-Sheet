@@ -210,3 +210,59 @@ int32_t main(){
     cout<<dp[n][w];
 }
 ```
+
+### E Knapsack 2
+
+Problem Statement
+There are 
+N items, numbered 
+1,2,…,N. For each 
+i (
+1≤i≤N), Item 
+i has a weight of 
+w 
+i
+​
+  and a value of 
+v 
+i
+​
+ .
+
+Taro has decided to choose some of the 
+N items and carry them home in a knapsack. The capacity of the knapsack is 
+W, which means that the sum of the weights of items taken must be at most 
+W.
+
+Find the maximum possible sum of the values of items that Taro takes home.
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+#define int long long
+#define MOD 1000000007
+const int INF=1e15;
+int32_t main(){
+    int n,w;
+    cin>>n>>w;
+    vector<int>weights(n),values(n);
+    int V=0;
+    for(int i=0;i<n;i++){
+        cin>>weights[i]>>values[i];
+        V+=values[i];
+    }
+    vector<int>dp(V+1,INF);
+    dp[0]=0;
+    for(int i=0;i<n;i++)
+    {
+        for(int v=V;v>=values[i];v--)
+        dp[v]=min(dp[v],dp[v-values[i]]+weights[i]);
+    }
+    int res=0;
+    for(int v=0;v<=V;v++){
+        if(dp[v]<=w)
+        res=v;
+    }
+    cout<<res<<endl;
+}
+```
