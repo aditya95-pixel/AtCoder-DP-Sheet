@@ -373,3 +373,77 @@ int32_t main(){
     cout<<*max_element(dp.begin(),dp.end());
 }
 ```
+
+### H Grid 1
+
+There is a grid with 
+H horizontal rows and 
+W vertical columns. Let 
+(i,j) denote the square at the 
+i-th row from the top and the 
+j-th column from the left.
+
+For each 
+i and 
+j (
+1≤i≤H, 
+1≤j≤W), Square 
+(i,j) is described by a character 
+a 
+i,j
+​
+ . If 
+a 
+i,j
+​
+  is ., Square 
+(i,j) is an empty square; if 
+a 
+i,j
+​
+  is #, Square 
+(i,j) is a wall square. It is guaranteed that Squares 
+(1,1) and 
+(H,W) are empty squares.
+
+Taro will start from Square 
+(1,1) and reach 
+(H,W) by repeatedly moving right or down to an adjacent empty square.
+
+Find the number of Taro's paths from Square 
+(1,1) to 
+(H,W). As the answer can be extremely large, find the count modulo 
+10 
+9
+ +7.
+
+ ```cpp
+#include <bits/stdc++.h>
+using namespace std;
+#define int long long
+#define MOD 1000000007
+const int INF=1e15;
+int32_t main(){
+    int h,w;
+    cin>>h>>w;
+    vector<string>grid;
+    for(int i=0;i<h;i++){
+        string str;
+        cin>>str;
+        grid.push_back(str);
+    }
+    vector<vector<int>>dp(h,vector<int>(w,0));
+    if(grid[0][0]=='#')
+    {cout<<0<<endl;return 0;}
+    dp[0][0]=1;
+    for(int i=0;i<h;i++){
+        for(int j=0;j<w;j++){
+            if(dp[i][j]>0 && i+1<h && grid[i+1][j]=='.')
+            dp[i+1][j]=(dp[i+1][j]+dp[i][j])%MOD;
+            if(dp[i][j]>0 && j+1<w && grid[i][j+1]=='.')
+            dp[i][j+1]=(dp[i][j+1]+dp[i][j])%MOD;
+        }
+    }
+    cout<<dp[h-1][w-1]<<endl;
+}
+```
