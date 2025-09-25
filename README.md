@@ -447,3 +447,52 @@ int32_t main(){
     cout<<dp[h-1][w-1]<<endl;
 }
 ```
+
+### I Coins (DP on Probability)
+
+Problem Statement
+Let 
+N be a positive odd number.
+
+There are 
+N coins, numbered 
+1,2,…,N. For each 
+i (
+1≤i≤N), when Coin 
+i is tossed, it comes up heads with probability 
+p 
+i
+​
+  and tails with probability 
+1−p 
+i
+​
+ .
+
+Taro has tossed all the 
+N coins. Find the probability of having more heads than tails.
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+#define int long long
+#define MOD 1000000007
+const int INF=1e15;
+int32_t main(){
+    int n;
+    cin>>n;
+    vector<double>prob(n);
+    for(auto &p:prob)
+    cin>>p;
+    vector<double>dp(n+1,0);
+    dp[0]=1;
+    for(int i=0;i<n;i++){
+        for(int j=i+1;j>=0;j--)
+            dp[j]=(j>0?dp[j-1]:0)*prob[i]+dp[j]*(1-prob[i]);
+    }
+    double sum=0;
+    for(int i=(n+1)/2;i<=n;i++)
+    sum+=dp[i];
+    cout<<setprecision(10)<<sum<<endl;
+}
+```
