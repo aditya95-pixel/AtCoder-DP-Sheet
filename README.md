@@ -312,3 +312,64 @@ int32_t main(){
     cout<<res<<endl;
 }
 ```
+
+### G Longest Path (DP on DAG concept)
+
+There is a directed graph 
+G with 
+N vertices and 
+M edges. The vertices are numbered 
+1,2,…,N, and for each 
+i (
+1≤i≤M), the 
+i-th directed edge goes from Vertex 
+x 
+i
+​
+  to 
+y 
+i
+​
+ . 
+G does not contain directed cycles.
+
+Find the length of the longest directed path in 
+G. Here, the length of a directed path is the number of edges in it.
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+#define int long long
+#define MOD 1000000007
+const int INF=1e15;
+int32_t main(){
+    int n,m;
+    cin>>n>>m;
+    vector<vector<int>>adj(n+1);
+    vector<int>indeg(n+1,0);
+    for(int i=0;i<m;i++){
+        int x,y;
+        cin>>x>>y;
+        adj[x].push_back(y);
+        indeg[y]++;
+    }
+    queue<int>q;
+    for(int i=1;i<=n;i++)
+    {
+        if(indeg[i]==0)
+        q.push(i);
+    }
+    vector<int>dp(n+1,0);
+    while(!q.empty()){
+        int u=q.front();
+        q.pop();
+        for(auto v:adj[u]){
+            indeg[v]--;
+            dp[v]=max(dp[v],dp[u]+1);
+            if(indeg[v]==0)
+                q.push(v);
+        }
+    }
+    cout<<*max_element(dp.begin(),dp.end());
+}
+```
