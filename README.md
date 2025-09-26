@@ -496,3 +496,69 @@ int32_t main(){
     cout<<setprecision(10)<<sum<<endl;
 }
 ```
+
+### J Sushi
+
+There are 
+N dishes, numbered 
+1,2,…,N. Initially, for each 
+i (
+1≤i≤N), Dish 
+i has 
+a 
+i
+​
+  (
+1≤a 
+i
+​
+ ≤3) pieces of sushi on it.
+
+Taro will perform the following operation repeatedly until all the pieces of sushi are eaten:
+
+Roll a die that shows the numbers 
+1,2,…,N with equal probabilities, and let 
+i be the outcome. If there are some pieces of sushi on Dish 
+i, eat one of them; if there is none, do nothing.
+Find the expected number of times the operation is performed before all the pieces of sushi are eaten.
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+#define int long long
+#define MOD 1000000007
+const int INF=1e15;
+int32_t main(){
+    int n;
+    cin>>n;
+    vector<int>a(n);
+    int c1=0,c2=0,c3=0;
+    for(auto &ele:a)
+    {
+        cin>>ele;
+        if(ele==1)
+        c1++;
+        else if(ele==2)
+        c2++;
+        else
+        c3++;
+    }
+    vector<vector<vector<double>>>dp(n+1,vector<vector<double>>(n+1,vector<double>(n+1,0)));
+    dp[0][0][0]=0;
+    for(int s=1;s<=n;s++){
+        for(int i=s;i>=0;i--){
+            for(int j=s-i;j>=0;j--){
+                int k=s-i-j;
+                if(k<0 || k>n)
+                continue;
+                double term=n;
+                if(i>0) term+=i*dp[i-1][j][k];
+                if(j>0) term+=j*dp[i+1][j-1][k];
+                if(k>0) term+=k*dp[i][j+1][k-1];
+                dp[i][j][k]=term/s;
+            }
+        }
+    }
+    cout<<setprecision(10)<<dp[c1][c2][c3]<<endl;
+}
+```
