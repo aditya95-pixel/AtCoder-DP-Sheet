@@ -562,3 +562,55 @@ int32_t main(){
     cout<<setprecision(10)<<dp[c1][c2][c3]<<endl;
 }
 ```
+
+### K Stones
+
+There is a set 
+A={a 
+1
+​
+ ,a 
+2
+​
+ ,…,a 
+N
+​
+ } consisting of 
+N positive integers. Taro and Jiro will play the following game against each other.
+
+Initially, we have a pile consisting of 
+K stones. The two players perform the following operation alternately, starting from Taro:
+
+Choose an element 
+x in 
+A, and remove exactly 
+x stones from the pile.
+A player loses when he becomes unable to play. Assuming that both players play optimally, determine the winner.
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+#define int long long
+#define MOD 1000000007
+const int INF=1e15;
+int32_t main(){
+    int n,k;
+    cin>>n>>k;
+    vector<int>a(n);
+    for(auto &ele:a)
+    cin>>ele;
+    vector<int>dp(k+1,0);
+    dp[0]=0;
+    for(int i=1;i<=k;i++){
+        for(auto x:a)
+        {
+            if(i>=x && !dp[i-x])
+            dp[i]=1;
+        }
+    }
+    if(dp[k])
+    cout<<"First";
+    else
+    cout<<"Second";
+}
+```
