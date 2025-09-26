@@ -614,3 +614,59 @@ int32_t main(){
     cout<<"Second";
 }
 ```
+
+### L Deque
+
+Taro and Jiro will play the following game against each other.
+
+Initially, they are given a sequence 
+a=(a 
+1
+​
+ ,a 
+2
+​
+ ,…,a 
+N
+​
+ ). Until 
+a becomes empty, the two players perform the following operation alternately, starting from Taro:
+
+Remove the element at the beginning or the end of 
+a. The player earns 
+x points, where 
+x is the removed element.
+Let 
+X and 
+Y be Taro's and Jiro's total score at the end of the game, respectively. Taro tries to maximize 
+X−Y, while Jiro tries to minimize 
+X−Y.
+
+Assuming that the two players play optimally, find the resulting value of 
+X−Y.
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+#define int long long
+#define MOD 1000000007
+const int INF=1e15;
+int32_t main(){
+    int n;
+    cin>>n;
+    vector<int>a(n);
+    for(auto &ele:a)
+    cin>>ele;
+    vector<vector<int>>dp(n,vector<int>(n,0));
+    for(int len=1;len<=n;len++){
+        for(int l=0;l+len-1<n;l++){
+            int r=l+len-1;
+            if(len==1)
+            dp[l][r]=a[l];
+            else
+            dp[l][r]=max(a[l]-dp[l+1][r],a[r]-dp[l][r-1]);
+        }
+    }
+    cout<<dp[0][n-1]<<endl;
+}
+```
