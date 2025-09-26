@@ -719,3 +719,49 @@ int32_t main(){
     cout<<dp[n][k]<<endl;
 }
 ```
+
+### N Slimes
+
+There are 
+N slimes lining up in a row. Initially, the 
+i-th slime from the left has a size of 
+a 
+i
+​
+ .
+
+Taro is trying to combine all the slimes into a larger slime. He will perform the following operation repeatedly until there is only one slime:
+
+Choose two adjacent slimes, and combine them into a new slime. The new slime has a size of 
+x+y, where 
+x and 
+y are the sizes of the slimes before combining them. Here, a cost of 
+x+y is incurred. The positional relationship of the slimes does not change while combining slimes.
+Find the minimum possible total cost incurred.
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+#define int long long
+#define MOD 1000000007
+const int INF=1e15;
+int32_t main(){
+    int n;
+    cin>>n;
+    vector<int>a(n),pref(n+1,0);
+    for(int i=0;i<n;i++){
+        cin>>a[i];
+        pref[i+1]=pref[i]+a[i];
+    } 
+    vector<vector<int>>dp(n,vector<int>(n,0));
+    for(int len=2;len<=n;len++){
+        for(int l=0;l+len-1<n;l++){
+            int r=l+len-1;
+            dp[l][r]=INT64_MAX;
+            for(int k=l;k<r;k++)
+            dp[l][r]=min(dp[l][r],dp[l][k]+dp[k+1][r]+pref[r+1]-pref[l]);
+        }
+    }
+    cout<<dp[0][n-1];
+}
+```
