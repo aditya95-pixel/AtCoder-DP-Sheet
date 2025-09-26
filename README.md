@@ -670,3 +670,52 @@ int32_t main(){
     cout<<dp[0][n-1]<<endl;
 }
 ```
+
+### M Candies
+
+There are 
+N children, numbered 
+1,2,…,N.
+
+They have decided to share 
+K candies among themselves. Here, for each 
+i (
+1≤i≤N), Child 
+i must receive between 
+0 and 
+a 
+i
+​
+  candies (inclusive). Also, no candies should be left over.
+
+Find the number of ways for them to share candies, modulo 
+10 
+9
+ +7. Here, two ways are said to be different when there exists a child who receives a different number of candies.
+
+ ```cpp
+ #include <bits/stdc++.h>
+using namespace std;
+#define int long long
+#define MOD 1000000007
+const int INF=1e15;
+int32_t main(){
+    int n,k;
+    cin>>n>>k;
+    vector<int>a(n);
+    for(auto &ele:a)
+    cin>>ele;
+    vector<vector<int>>dp(n+1,vector<int>(k+1,0));
+    dp[0][0]=1;
+    for(int i=1;i<=n;i++){
+        vector<int>pref(k+2,0);
+        for(int j=0;j<=k;j++)
+        pref[j+1]=(pref[j]+dp[i-1][j])%MOD;
+        for(int j=0;j<=k;j++){
+            int left=max(0LL,j-a[i-1]);
+            dp[i][j]=(pref[j+1]-pref[left]+MOD)%MOD;
+        }
+    }
+    cout<<dp[n][k]<<endl;
+}
+```
