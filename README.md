@@ -765,3 +765,73 @@ int32_t main(){
     cout<<dp[0][n-1];
 }
 ```
+
+### O Matching (BitMask DP)
+
+There are 
+N men and 
+N women, both numbered 
+1,2,…,N.
+
+For each 
+i,j (
+1≤i,j≤N), the compatibility of Man 
+i and Woman 
+j is given as an integer 
+a 
+i,j
+​
+ . If 
+a 
+i,j
+​
+ =1, Man 
+i and Woman 
+j are compatible; if 
+a 
+i,j
+​
+ =0, they are not.
+
+Taro is trying to make 
+N pairs, each consisting of a man and a woman who are compatible. Here, each man and each woman must belong to exactly one pair.
+
+Find the number of ways in which Taro can make 
+N pairs, modulo 
+10 
+9
+ +7.
+
+ ```cpp
+ #include <bits/stdc++.h>
+using namespace std;
+#define int long long
+#define MOD 1000000007
+const int INF=1e15;
+int32_t main(){
+    int n;
+    cin>>n;
+    vector<vector<int>>a(n,vector<int>(n,0));
+    for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++){
+            cin>>a[i][j];
+        }
+    }
+    int m=1<<n;
+    vector<int>dp(m,0);
+    dp[0]=1;
+    for(int mask=0;mask<m;mask++){
+        int man=__builtin_popcount(mask);
+        if(man>=n)
+        continue;
+        for(int woman=0;woman<n;woman++){
+            if((mask & (1<<woman))==0 && a[man][woman]==1)
+            {
+                int nmask=mask|(1<<woman);
+                dp[nmask]=(dp[nmask]+dp[mask])%MOD;
+            }
+        }
+    }
+    cout<<dp[m-1]<<endl;
+}
+```
