@@ -835,3 +835,62 @@ int32_t main(){
     cout<<dp[m-1]<<endl;
 }
 ```
+
+### P Independent Set
+
+There is a tree with 
+N vertices, numbered 
+1,2,…,N. For each 
+i (
+1≤i≤N−1), the 
+i-th edge connects Vertex 
+x 
+i
+​
+  and 
+y 
+i
+​
+ .
+
+Taro has decided to paint each vertex in white or black. Here, it is not allowed to paint two adjacent vertices both in black.
+
+Find the number of ways in which the vertices can be painted, modulo 
+10 
+9
+ +7.
+
+ ```cpp
+#include <bits/stdc++.h>
+using namespace std;
+#define int long long
+#define MOD 1000000007
+const int INF=1e15;
+void dfs(int u,int p,vector<vector<int>>&adj,
+vector<vector<int>>&dp){
+    dp[u][0]=1;
+    dp[u][1]=1;
+    for(auto v:adj[u]){
+        if(v!=p){
+            dfs(v,u,adj,dp);
+            dp[u][0]=(dp[u][0]*((dp[v][0]+dp[v][1])%MOD))%MOD;
+            dp[u][1]=(dp[u][1]*dp[v][0])%MOD;
+        }
+    }
+}
+int32_t main(){
+    int n;
+    cin>>n;
+    vector<vector<int>>adj(n+1);
+    for(int i=0;i<n-1;i++){
+        int x,y;
+        cin>>x>>y;
+        adj[x].push_back(y);
+        adj[y].push_back(x);
+    }
+    vector<vector<int>>dp(n+1,vector<int>(2,0));
+    dfs(1,0,adj,dp);
+    int res=(dp[1][0]+dp[1][1])%MOD;
+    cout<<res<<endl;
+}
+```
